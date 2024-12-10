@@ -1,0 +1,143 @@
+\ProvidesPackage{beamerarticleHildesheim}[2021/05/01]
+% Copyright 2003-2007 by Till Tantau
+% Copyright      2010 by Vedran Mileti\'c
+% Copyright 2016-2021 by Jörg Cassens <jmt@cassens.org>
+%
+% This file may be distributed and/or modified
+%
+% 1. under the LaTeX Project Public License and/or
+% 2. under the GNU Public License.
+
+% \RequirePackage{beamerbasercs}
+
+\RequirePackage{beamerbasemodes}
+% Setup modes and check for article option
+
+\RequirePackage{beamerbaseoptions}
+
+\RequirePackage{graphicx}
+
+% \DeclareOption{utf8}{\PassOptionsToPackage{utf8}{beamerbasearticle}}
+% \DeclareOption{hyperref}{\PassOptionsToPackage{hyperref}{beamerbasearticle}}
+% \DeclareOption{noxcolor}{\PassOptionsToPackage{noxcolor}{beamerbasearticle}}
+% \DeclareOption{notheorems}{\PassOptionsToPackage{notheorems}{beamerbasearticle}}
+% \DeclareOption{noamsthm}{\PassOptionsToPackage{noamsthm}{beamerbasearticle}}
+% \DeclareOption{noamssymb}{\PassOptionsToPackage{noamssymb}{beamerbasearticle}}
+% \DeclareOption{envcountsect}{\PassOptionsToPackage{envcountsect}{beamerbasearticle}}
+% \DeclareOption{activeospeccharacters}{\PassOptionsToPackage{activeospeccharacters}{beamerbasearticle}}
+% 
+% \ProcessOptions
+
+\newif\ifbeamer@english
+\beamer@englishfalse
+
+\newif\ifbeamer@unilogo
+\beamer@unilogofalse
+
+\newif\ifbeamer@milogo
+\beamer@milogofalse
+
+\newif\ifbeamer@ifilogo
+\beamer@ifilogofalse
+
+\newif\ifbeamer@imailogo
+\beamer@imailogofalse
+
+\newif\ifbeamer@insertlogo
+\beamer@insertlogotrue
+
+\newif\ifbeamer@mytitlelogo
+\beamer@mytitlelogofalse
+
+\newif\ifbeamer@mytitlelogowidth
+\beamer@mytitlelogowidthfalse
+
+\newcommand{\jmt@titlelogo}{imai/unihi-logo.pdf}
+
+\newdimen\jmt@titlelogowidth
+\jmt@titlelogowidth=.2\textwidth
+
+\newdimen\jmt@mytitlelogowidth
+\jmt@mytitlelogowidth=.2\textwidth
+
+\DeclareOptionBeamer{utf8}{\PassOptionsToPackage{utf8}{beamerbasearticle}}
+\DeclareOptionBeamer{hyperref}{\PassOptionsToPackage{hyperref}{beamerbasearticle}}
+\DeclareOptionBeamer{noxcolor}{\PassOptionsToPackage{noxcolor}{beamerbasearticle}}
+\DeclareOptionBeamer{notheorems}{\PassOptionsToPackage{notheorems}{beamerbasearticle}}
+\DeclareOptionBeamer{noamsthm}{\PassOptionsToPackage{noamsthm}{beamerbasearticle}}
+\DeclareOptionBeamer{noamssymb}{\PassOptionsToPackage{noamssymb}{beamerbasearticle}}
+\DeclareOptionBeamer{envcountsect}{\PassOptionsToPackage{envcountsect}{beamerbasearticle}}
+\DeclareOptionBeamer{activeospeccharacters}{\PassOptionsToPackage{activeospeccharacters}{beamerbasearticle}}
+
+\DeclareOptionBeamer{english}{\beamer@englishtrue}
+
+\DeclareOptionBeamer{unilogo}{\beamer@unilogotrue}
+\DeclareOptionBeamer{milogo}{\beamer@milogotrue}
+\DeclareOptionBeamer{ifilogo}{\beamer@ifilogotrue}
+\DeclareOptionBeamer{imailogo}{\beamer@unilogotrue} % Obsolete, reverts to unilogo
+\DeclareOptionBeamer{nologo}{\beamer@insertlogofalse}
+
+\DeclareOptionBeamer{titlelogowidth}{%
+  \jmt@mytitlelogowidth=#1
+  \beamer@mytitlelogowidthtrue
+}
+
+\DeclareOptionBeamer{titlelogo}{%
+  \renewcommand{\jmt@titlelogo}{#1}
+}
+
+\ProcessOptionsBeamer
+
+\ifbeamer@milogo
+  \jmt@titlelogowidth=.33\textwidth
+    \renewcommand{\jmt@titlelogo}{imai/unihi-ifi-mi-logo-de.pdf}
+  \ifbeamer@english
+    \renewcommand{\jmt@titlelogo}{imai/unihi-ifi-mi-logo-en.pdf}
+  \else
+  \fi
+\fi
+
+\ifbeamer@ifilogo
+  \jmt@titlelogowidth=.33\textwidth
+    \renewcommand{\jmt@titlelogo}{imai/unihi-ifi-logo-de.pdf}
+  \ifbeamer@english
+    \renewcommand{\jmt@titlelogo}{imai/unihi-ifi-logo-en.pdf}
+  \else
+  \fi
+\fi
+
+\ifbeamer@mytitlelogowidth
+  \jmt@titlelogowidth=\jmt@mytitlelogowidth
+\fi
+
+\def\beamer@slide#1#2{\expandafter\gdef\csname beamer@slide#1\endcsname{#2}}
+\beamer@inpresentationfalse
+
+\ifx\beamer@currentmode\@undefined
+  \def\beamer@currentmode{article}
+\fi
+
+\mode
+<all>
+
+\RequirePackage{beamerbasearticle}
+
+\mode<article>
+
+\newcommand{\makeopening}{%
+  \maketitle
+  
+  \ifbeamer@insertlogo
+    \begin{center}
+      \includegraphics[width=\jmt@titlelogowidth]{\jmt@titlelogo}
+    \end{center}
+  \fi
+}
+
+\newcommand{\makeclosing}{}
+
+\mode
+<all>
+
+
+% \RequirePackage{beamerhelperthemehildesheim}

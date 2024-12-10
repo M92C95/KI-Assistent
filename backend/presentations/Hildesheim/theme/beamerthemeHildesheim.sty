@@ -1,0 +1,133 @@
+\ProvidesPackage{beamerthemeHildesheim}[2021/05/01]
+\def\beamerhildesheim@version{3.37}
+
+% Copyright 2007      by Till Tantau
+%       and 2009-2021 by Joerg Cassens <jmt@cassens.org>
+%
+% This file may be distributed and/or modified
+%
+% 1. under the LaTeX Project Public License and/or
+% 2. under the GNU Public License.
+
+% \ifx\beamer@version\beamerhildesheim@version
+% \else
+%   \PackageWarningNoLine{beamerthemeHildesheim}{This version of beamerthemeHildesheim (\beamerhildesheim@version ) might not work with detected beamer class \beamer@version}
+% \fi
+
+\RequirePackage{newfile}
+
+\newif\ifbeamer@nonav
+\beamer@nonavtrue
+
+\newif\ifbeamer@inversetitle
+\beamer@inversetitlefalse
+
+\newif\ifbeamer@cleantitle
+\beamer@cleantitlefalse
+
+\DeclareOptionBeamer{nonav}{} % default
+\DeclareOptionBeamer{nav}  {\beamer@nonavfalse} % default
+
+\DeclareOptionBeamer{screencast}{\PassOptionsToPackage{screencast}{beamerouterthemehildesheim}}
+
+\DeclareOptionBeamer{hideothersubsections}{\PassOptionsToPackage{hideothersubsections}{beamerouterthemehildesheim}}
+\DeclareOptionBeamer{hideallsubsections}  {\PassOptionsToPackage{hideallsubsections}  {beamerouterthemehildesheim}}
+
+\DeclareOptionBeamer{width} {\PassOptionsToPackage{width=#1} {beamerouterthemehildesheim}}
+\DeclareOptionBeamer{slides}{\PassOptionsToPackage{slides=#1}{beamerouterthemehildesheim}}
+
+\DeclareOptionBeamer{left} {\PassOptionsToPackage{left} {beamerouterthemehildesheim}}
+\DeclareOptionBeamer{right}{\PassOptionsToPackage{right}{beamerouterthemehildesheim}}
+
+\DeclareOptionBeamer{english}  {\PassOptionsToPackage{english}     {beamerouterthemehildesheim}}
+
+\DeclareOptionBeamer{sblogo}     {\PassOptionsToPackage{sblogo=#1}           {beamerouterthemehildesheim}}
+\DeclareOptionBeamer{titlelogo}  {\PassOptionsToPackage{titlelogo=#1}        {beamerouterthemehildesheim}}
+\DeclareOptionBeamer{unilogo}    {\PassOptionsToPackage{unilogo}             {beamerouterthemehildesheim}}
+\DeclareOptionBeamer{milogo}     {\PassOptionsToPackage{milogo}              {beamerouterthemehildesheim}}
+\DeclareOptionBeamer{ifilogo}    {\PassOptionsToPackage{ifilogo}             {beamerouterthemehildesheim}}
+\DeclareOptionBeamer{imailogo}   {\PassOptionsToPackage{imailogo}            {beamerouterthemehildesheim}}
+\DeclareOptionBeamer{notitlelogo}{\PassOptionsToPackage{notitlelogo}         {beamerouterthemehildesheim}}
+\DeclareOptionBeamer{nosblogo}   {\PassOptionsToPackage{nosblogo}            {beamerouterthemehildesheim}}
+\DeclareOptionBeamer{nologo}     {\PassOptionsToPackage{notitlelogo,nosblogo}{beamerouterthemehildesheim}}
+
+\DeclareOptionBeamer{sbwidth}       {\PassOptionsToPackage{sbwidth=#1}       {beamerouterthemehildesheim}}
+\DeclareOptionBeamer{sblogowidth}   {\PassOptionsToPackage{sblogowidth=#1}   {beamerouterthemehildesheim}}
+\DeclareOptionBeamer{titlelogowidth}{\PassOptionsToPackage{titlelogowidth=#1}{beamerouterthemehildesheim}}
+
+\DeclareOptionBeamer{sbtoc}        {\PassOptionsToPackage{sbtoc}        {beamerouterthemehildesheim}}
+\DeclareOptionBeamer{sbbottomtoc}  {\PassOptionsToPackage{sbbottomtoc}  {beamerouterthemehildesheim}}
+
+\DeclareOptionBeamer{inversetitle} {\PassOptionsToPackage{inversetitle} {beamerouterthemehildesheim}\beamer@inversetitletrue}
+\DeclareOptionBeamer{cleantitle}   {\beamer@cleantitletrue}
+
+\DeclareOptionBeamer{fbIcolors}    {\PassOptionsToPackage{fbIcolors}    {beamercolorthemehildesheim}}
+\DeclareOptionBeamer{fbIIcolors}   {\PassOptionsToPackage{fbIIcolors}   {beamercolorthemehildesheim}}
+\DeclareOptionBeamer{fbIIIcolors}  {\PassOptionsToPackage{fbIIIcolors}  {beamercolorthemehildesheim}}
+\DeclareOptionBeamer{fbIVcolors}   {\PassOptionsToPackage{fbIVcolors}   {beamercolorthemehildesheim}}
+\DeclareOptionBeamer{ntnucolors}   {\PassOptionsToPackage{ntnucolors}   {beamercolorthemehildesheim}}
+\DeclareOptionBeamer{rwthcolors}   {\PassOptionsToPackage{rwthcolors}   {beamercolorthemehildesheim}}
+\DeclareOptionBeamer{szgcolors}    {\PassOptionsToPackage{szgcolors}    {beamercolorthemehildesheim}}
+\DeclareOptionBeamer{tangocolors}  {\PassOptionsToPackage{tangocolors}  {beamercolorthemehildesheim}}
+\DeclareOptionBeamer{uzlcolors}    {\PassOptionsToPackage{uzlcolors}    {beamercolorthemehildesheim}}
+\DeclareOptionBeamer{wmicolors}    {\PassOptionsToPackage{wmicolors}    {beamercolorthemehildesheim}}
+\DeclareOptionBeamer{xmendelcolors}{\PassOptionsToPackage{xmendelcolors}{beamercolorthemehildesheim}}
+
+\DeclareOptionBeamer{uhicolors}    {\PassOptionsToPackage{uhicolors}    {beamercolorthemehildesheim}} % default
+
+\ProcessOptionsBeamer
+
+% \RequirePackage{beamerhelperthemehildesheim}
+
+\mode<presentation>
+
+% \renewcommand{\newblock}{} % hack needed for bbl-entries?
+
+\usecolortheme{hildesheim}
+
+% \useoutertheme[height=0pt]{hildesheim}
+\useoutertheme{hildesheim}
+
+\useinnertheme{rectangles}
+
+{\usebeamercolor{structure}}
+
+\ifbeamer@nonav
+  \setbeamertemplate{navigation symbols}{}  % Removes navigation symbols.
+\fi
+
+\newcommand{\makeopening}{%
+  {
+  \ifbeamer@inversetitle
+    \setbeamercolor{titlelike}{fg=white}
+    \setbeamercolor{authorlike}{fg=white}
+    \setbeamercolor{background canvas}{bg=structure}
+  \fi
+  \ifbeamer@cleantitle
+    \frame[plain]{\titlepage}
+  \else
+    \maketitle
+  \fi
+  }
+}
+
+\newcommand{\makeclosing}{%
+  {
+  \ifbeamer@inversetitle
+    \setbeamercolor{titlelike}{fg=white}
+    \setbeamercolor{authorlike}{fg=white}
+    \setbeamercolor{background canvas}{bg=structure}
+  \fi
+  \ifbeamer@cleantitle
+    \frame[plain]{\titlepage}
+  \else
+    \maketitle
+  \fi
+  \newoutputstream{beamerhildesheim}
+  \openoutputfile{\jobname.jmt}{beamerhildesheim}
+  \addtostream{beamerhildesheim}{\protect\def\protect\beamer@numberofslides{\theframenumber}}
+  \closeoutputstream{beamerhildesheim}
+  }
+}
+
+\mode<all>

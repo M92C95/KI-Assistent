@@ -1,0 +1,32 @@
+body {
+  font-family: 'Lato', sans-serif;
+  color: #343A40; 
+}
+
+.btn-primary {
+  background-color: #007BFF; 
+  border-color: #007BFF;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
+}
+
+.btn-secondary {
+  background-color: #20C997; 
+  border-color: #20C997;
+  color: #fff;
+}
+
+.btn-secondary:hover {
+  background-color: #1ca286;
+  border-color: #1ca286;
+}
+
+.card-header {
+  background-color: #f8f9fa;
+  color: #343A40;
+  font-weight: bold;
+}
+

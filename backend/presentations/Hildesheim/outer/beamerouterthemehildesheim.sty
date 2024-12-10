@@ -1,0 +1,396 @@
+\ProvidesPackage{beamerouterthemehildesheim}[2021/05/01]
+
+% Copyright      2007 by Till Tantau
+%       and 2009-2021 by Joerg Cassens <jmt@cassens.org>
+%
+% This file may be distributed and/or modified
+%
+% 1. under the LaTeX Project Public License and/or
+% 2. under the GNU Public License.
+
+
+\newdimen\beamer@sidebarwidth
+\newdimen\beamer@headheight
+\newdimen\beamer@frametitlewidth
+\newdimen\beamer@footerboxwidth
+\newdimen\beamer@slidenumberwidth
+
+\newif\ifbeamer@screencast
+\beamer@screencastfalse
+
+\newif\ifbeamer@left
+\beamer@lefttrue
+
+\newif\ifbeamer@right
+\beamer@rightfalse
+
+\newif\ifbeamer@sbtoc
+\beamer@sbtocfalse
+
+\newif\ifbeamer@sbbottomtoc
+\beamer@sbbottomtocfalse
+
+\newif\ifbeamer@rwth
+\beamer@rwthfalse
+
+\newif\ifbeamer@szg
+\beamer@szgfalse
+
+\newif\ifbeamer@uzl
+\beamer@uzlfalse
+
+\newif\ifbeamer@english
+\beamer@englishfalse
+
+\newif\ifbeamer@unilogo
+\beamer@unilogofalse
+
+\newif\ifbeamer@milogo
+\beamer@milogofalse
+
+\newif\ifbeamer@ifilogo
+\beamer@ifilogofalse
+
+\newif\ifbeamer@imailogo
+\beamer@imailogofalse
+
+\newif\ifbeamer@showtitlelogo
+\beamer@showtitlelogotrue
+
+\newif\ifbeamer@showsblogo
+\beamer@showsblogotrue
+
+\newif\ifbeamer@mytitlelogo
+\beamer@mytitlelogofalse
+
+\newif\ifbeamer@mysblogo
+\beamer@mysblogofalse
+
+\newif\ifbeamer@inversetitle
+\beamer@inversetitlefalse
+
+\usebeamerfont{frametitle}
+\beamer@sidebarwidth=2.5\baselineskip
+\beamer@slidenumberwidth=.75\beamer@sidebarwidth
+\beamer@headheight=2.5\baselineskip
+\reset@font
+
+\def\beamer@sidebarwidthfactor{1}
+
+\newdimen\beamer@sblogowidth
+\beamer@sblogowidth=.7\beamer@sidebarwidth
+
+\newdimen\beamer@titlelogowidth
+\beamer@titlelogowidth=.5\textwidth
+
+\def\beamer@lefttext{left}
+\def\beamer@numberofslides{\inserttotalframenumber}
+\def\beamer@sidebarside{left}
+
+\DeclareOptionBeamer{screencast}{%
+  \def\beamer@sidebarwidthfactor{1.5}
+  \beamer@showsblogofalse
+  \beamer@screencasttrue
+}
+
+\DeclareOptionBeamer{hideothersubsections}[]{\beamer@nav@subsectionstyle{show/show/hide}}
+\DeclareOptionBeamer{hideallsubsections}  []{\beamer@nav@subsectionstyle{hide}}
+
+\DeclareOptionBeamer{slides}{\def\beamer@numberofslides{#1}}
+
+\DeclareOptionBeamer{width} {\beamer@sidebarwidth=#1}
+\DeclareOptionBeamer{height}{\beamer@headheight=#1}
+
+\DeclareOptionBeamer{left} {\def\beamer@sidebarside{left}} % default
+\DeclareOptionBeamer{right}{\beamer@leftfalse\beamer@righttrue\def\beamer@sidebarside{right}}
+\ExecuteOptionsBeamer{left}
+
+\DeclareOptionBeamer{sbtoc}      {\beamer@sbtoctrue}
+\DeclareOptionBeamer{sbbottomtoc}{\beamer@sbbottomtoctrue}
+
+\DeclareOptionBeamer{inversetitle}{\beamer@inversetitletrue}
+
+\DeclareOptionBeamer{rwth}{\beamer@rwthtrue}
+
+\DeclareOptionBeamer{szg}{\beamer@szgtrue}
+
+\DeclareOptionBeamer{uzl}{\beamer@uzltrue}
+
+\DeclareOptionBeamer{sbwidth}{%
+  \def\beamer@sidebarwidthfactor{#1}
+}
+\DeclareOptionBeamer{sblogowidth}{%
+  \beamer@sblogowidth=#1
+}
+\DeclareOptionBeamer{titlelogowidth}{%
+  \beamer@titlelogowidth=#1
+}
+
+\DeclareOptionBeamer{sblogo}{%
+  \newcommand{\declaresblogo}{\pgfdeclareimage[width=\beamer@sblogowidth,interpolate=true]{mysblogo}{#1}}
+  \beamer@mysblogotrue
+}
+\DeclareOptionBeamer{titlelogo}{%
+  \newcommand{\declaretitlelogo}{\pgfdeclareimage[width=\beamer@titlelogowidth,interpolate=true]{mytitlelogo}{#1}}
+  \beamer@mytitlelogotrue
+}
+
+\DeclareOptionBeamer{english}{\beamer@englishtrue}
+
+\DeclareOptionBeamer{unilogo}{\beamer@unilogotrue}
+\DeclareOptionBeamer{milogo}{\beamer@milogotrue}
+\DeclareOptionBeamer{ifilogo}{\beamer@ifilogotrue}
+\DeclareOptionBeamer{imailogo}{\beamer@unilogotrue} % Obsolete, reverts to unilogo
+
+\DeclareOptionBeamer{notitlelogo}{\beamer@showtitlelogofalse}
+\DeclareOptionBeamer{nosblogo}   {\beamer@showsblogofalse}
+
+\ProcessOptionsBeamer
+
+\IfFileExists{./\jobname.jmt}{%
+  \input{\jobname.jmt}}{}
+
+\mode<presentation>
+
+\beamer@sidebarwidth=\beamer@sidebarwidthfactor\beamer@sidebarwidth
+
+\ifbeamer@screencast
+  \ifbeamer@sbtoc
+    \beamer@sbtocfalse
+    \beamer@sbbottomtoctrue
+  \fi
+\fi
+
+% Titlepage logos
+
+\pgfdeclareimage[height=2cm,interpolate=true]{unihititlelogo}{imai/unihi-logo.pdf}
+\pgfdeclareimage[height=2cm,interpolate=true]{unihititledark}{imai/unihi-logo-white.pdf}
+
+\ifbeamer@szg
+  \ifbeamer@english
+    \pgfdeclareimage[height=1cm,interpolate=true]{unihititlelogo}{imai/plus-lion-uni-en.pdf}
+    \pgfdeclareimage[height=1cm,interpolate=true]{unihititledark}{imai/plus-lion-uni-en-inverse.pdf}
+  \else
+    \pgfdeclareimage[height=1cm,interpolate=true]{unihititlelogo}{imai/plus-lion-uni-de.pdf}
+    \pgfdeclareimage[height=1cm,interpolate=true]{unihititledark}{imai/plus-lion-uni-de-inverse.pdf}
+  \fi
+\fi
+
+\ifbeamer@uzl
+  \pgfdeclareimage[height=1.5cm,interpolate=true]{unihititlelogo}{imai/uzl-logo-de.pdf}
+  \pgfdeclareimage[height=1.5cm,interpolate=true]{unihititledark}{imai/uzl-logo-de-inverse.pdf}
+\fi
+
+\ifbeamer@rwth
+  \ifbeamer@unilogo
+    \pgfdeclareimage[height=.8cm,interpolate=true]{unihititlelogo}{imai/rwth-logo.png}
+    \pgfdeclareimage[height=.8cm,interpolate=true]{unihititledark}{imai/rwth-logo-inverse.png}
+  \else
+    \pgfdeclareimage[height=.8cm,interpolate=true]{unihititlelogo}{imai/rwth-ifaar-logo.png}
+    \pgfdeclareimage[height=.8cm,interpolate=true]{unihititledark}{imai/rwth-ifaar-logo-inverse.png}
+  \fi
+\fi
+
+\ifbeamer@milogo
+  \ifbeamer@english
+    \pgfdeclareimage[height=1cm,interpolate=true]{unihititlelogo}{imai/unihi-ifi-mi-logo-en.pdf}
+    \pgfdeclareimage[height=1cm,interpolate=true]{unihititledark}{imai/unihi-ifi-mi-logo-en-inverse.pdf}
+  \else
+    \pgfdeclareimage[height=1cm,interpolate=true]{unihititlelogo}{imai/unihi-ifi-mi-logo-de.pdf}
+    \pgfdeclareimage[height=1cm,interpolate=true]{unihititledark}{imai/unihi-ifi-mi-logo-de-inverse.pdf}
+  \fi
+\fi
+
+\ifbeamer@ifilogo
+  \ifbeamer@english
+    \pgfdeclareimage[height=1cm,interpolate=true]{unihititlelogo}{imai/unihi-ifi-logo-en.pdf}
+    \pgfdeclareimage[height=1cm,interpolate=true]{unihititledark}{imai/unihi-ifi-logo-en-inverse.pdf}
+  \else
+    \pgfdeclareimage[height=1cm,interpolate=true]{unihititlelogo}{imai/unihi-ifi-logo-de.pdf}
+    \pgfdeclareimage[height=1cm,interpolate=true]{unihititledark}{imai/unihi-ifi-logo-de-inverse.pdf}
+  \fi
+\fi
+
+% Sidebar logos
+\pgfdeclareimage[width=.75\beamer@sidebarwidth,interpolate=true]{unihilogo}{imai/unihi-logo-white.pdf}
+
+\ifbeamer@szg
+  \pgfdeclareimage[width=.6\beamer@sidebarwidth,interpolate=true]{unihilogo}{imai/plus-lion-white.pdf}
+\fi
+
+\ifbeamer@uzl
+  \pgfdeclareimage[width=.75\beamer@sidebarwidth,interpolate=true]{unihilogo}{imai/uzl-seal-white.pdf}
+\fi
+
+\ifbeamer@rwth
+  \pgfdeclareimage[width=.75\beamer@sidebarwidth,interpolate=true]{unihilogo}{imai/rwth-logo-white.png}
+\fi
+
+\ifbeamer@milogo
+  \pgfdeclareimage[width=.66\beamer@sidebarwidth,interpolate=true]{unihilogo}{imai/mi-minilogo-lopad-white.pdf}
+\fi
+
+% Dark title page?
+
+\ifbeamer@showtitlelogo
+  \ifbeamer@mytitlelogo
+    \declaretitlelogo
+    \titlegraphic{\pgfuseimage{mytitlelogo}}
+  \else
+    \ifbeamer@inversetitle
+      \titlegraphic{\pgfuseimage{unihititledark}}
+    \else
+      \titlegraphic{\pgfuseimage{unihititlelogo}}
+    \fi
+  \fi
+\fi
+
+\ifbeamer@mysblogo
+  \declaresblogo
+  \logo{\pgfuseimage{mysblogo}}
+\else
+  \logo{\pgfuseimage{unihilogo}}
+\fi
+
+
+% % The following code will draw a line under the frame title
+% \ifbeamer@extern
+%   \defbeamertemplate*{frametitle}{hildesheim theme}
+%   {
+%     \ifbeamercolorempty[bg]{frametitle}{}{\nointerlineskip}%
+%     \beamer@frametitlewidth=\textwidth %
+% %     \addtolength\beamer@frametitlewidth{-\beamer@slidenumberwidth} %
+%     \vskip0.3cm%
+%     \begin{beamercolorbox}[wd=\beamer@frametitlewidth]{frametitle}
+% %    \begin{beamercolorbox}[wd=\beamer@frametitlewidth]{sidebar}
+%       \vbox{}\vskip-1ex%
+%       \usebeamerfont{frametitle}%
+%       \usebeamercolor[fg]{frametitle}\usebeamerfont{frametitle}\insertframetitle\par%
+%       \usebeamercolor[fg]{framesubtitle}\usebeamerfont{framesubtitle}\insertframesubtitle\par%
+%       \vskip-1ex%
+%       \begin{tikzpicture}
+%         \draw (0,0) -- (0:.99\beamer@frametitlewidth);
+%       \end{tikzpicture}
+%     \end{beamercolorbox}%
+%   }
+% \fi
+
+\beamer@footerboxwidth=\paperwidth
+\addtolength\beamer@footerboxwidth{-\beamer@sidebarwidth}
+\addtolength\beamer@footerboxwidth{-\beamer@slidenumberwidth}
+  \defbeamertemplate*{footline}{hildesheim theme}
+    {%
+    \leavevmode%
+    \hbox%
+    {%\hspace{2cm}
+    \ifbeamer@left
+      \begin{beamercolorbox}[wd=\beamer@sidebarwidth,ht=2.5ex,dp=1.125ex,leftskip=.01cm,rightskip=.01cm]{sidebar}%
+        \usebeamerfont{author in head/foot}\usebeamercolor[fg]{section in sidebar}\hfill\insertshortdate\hfill\hfill
+      \end{beamercolorbox}%
+    \else
+      \begin{beamercolorbox}[wd=\beamer@slidenumberwidth,ht=2.5ex,dp=1.125ex,leftskip=.01cm,rightskip=.01cm]{sidebar}%
+        \usebeamerfont{author in head/foot}\usebeamercolor[fg]{section in sidebar}\hfill\insertframenumber{} / \beamer@numberofslides\hfill\hfill
+      \end{beamercolorbox}%
+    \fi
+    \begin{beamercolorbox}[wd=\beamer@footerboxwidth,ht=2.5ex,dp=1.125ex,leftskip=.3cm,rightskip=.3cm]{author in head/foot}%
+      \usebeamerfont{author in head/foot}\insertshortauthor\ -- \insertshorttitle\ %-- \insertsectionhead
+    \end{beamercolorbox}%
+    \ifbeamer@right
+      \begin{beamercolorbox}[wd=\beamer@sidebarwidth,ht=2.5ex,dp=1.125ex,leftskip=.3cm,rightskip=.3cm]{sidebar}%
+        \usebeamerfont{author in head/foot}\usebeamercolor[fg]{section in sidebar}\hfill\insertshortdate\hfill\hfill
+      \end{beamercolorbox}%
+    \else
+      \begin{beamercolorbox}[wd=\beamer@slidenumberwidth,ht=2.5ex,dp=1.125ex,leftskip=.01cm,rightskip=.01cm]{sidebar}%
+        \usebeamerfont{author in head/foot}\usebeamercolor[fg]{section in sidebar}%
+          \hfill\insertframenumber{} / \beamer@numberofslides\hfill\hfill
+      \end{beamercolorbox}%
+    \fi
+    }
+    \vskip0pt%
+    }
+
+\def\beamer@sidebarformat#1#2#3{%
+  \begin{beamercolorbox}[wd=\beamer@sidebarwidth,leftskip=#1,rightskip=1ex plus1fil,vmode]{#2}
+    \vbox{}%
+    #3\par%
+    \vbox{}%
+    \vskip-1.5ex%
+  \end{beamercolorbox}
+}
+
+\defbeamertemplate*{section in sidebar}{hildesheim theme}
+{%
+  \vbox{%
+    \vskip1ex%
+    \beamer@sidebarformat{3pt}{section in sidebar}{\insertsectionhead}%
+  }%
+}
+
+\defbeamertemplate*{section in sidebar shaded}{hildesheim theme}
+{%
+  \vbox{%
+    \vskip1ex%
+    \beamer@sidebarformat{3pt}{section in sidebar shaded}{\insertsectionhead}%
+  }%
+}
+
+\defbeamertemplate*{subsection in sidebar}{hildesheim theme}
+{%
+  \beamer@sidebarformat{5pt}{subsection in sidebar}{\insertsubsectionhead}%
+}
+
+\defbeamertemplate*{subsection in sidebar shaded}{hildesheim theme}
+{%
+  \beamer@sidebarformat{5pt}{subsection in sidebar shaded}{\insertsubsectionhead}%
+}
+
+\defbeamertemplate*{subsubsection in sidebar}{hildesheim theme}
+{%
+  \beamer@sidebarformat{7pt}{subsubsection in sidebar}{\insertsubsubsectionhead}%
+}
+
+\defbeamertemplate*{subsubsection in sidebar shaded}{hildesheim theme}
+{%
+  \beamer@sidebarformat{7pt}{subsubsection in sidebar shaded}{\insertsubsubsectionhead}%
+}
+
+% Sidebar
+\ifdim\beamer@sidebarwidth>0pt
+  \setbeamersize{sidebar width \beamer@sidebarside=\beamer@sidebarwidth}
+  \defbeamertemplate*{sidebar \beamer@sidebarside}{hildesheim theme}
+  {
+    \ifbeamer@showsblogo
+      \hskip.01pt
+      \begin{beamercolorbox}[wd=\beamer@sidebarwidth,center]{title box in sidebar}%
+        \vskip1mm\insertlogo\vskip1mm
+      \end{beamercolorbox}\\
+    \fi
+    \ifbeamer@sbtoc
+      \insertverticalnavigation{\beamer@sidebarwidth}%
+      \vfill
+    \else
+      \ifbeamer@sbbottomtoc
+        \vfill
+        \insertverticalnavigation{\beamer@sidebarwidth}%
+        \vspace{1em}
+      \else
+%       This is a hack :)
+        \hspace*{1pt}
+        \vfill
+      \fi
+    \fi
+  }%
+
+  \ifx\beamer@sidebarside\beamer@lefttext%
+    \defbeamertemplate*{sidebar right}{hildesheim theme}
+    {%
+      \vfill%
+      \llap{\usebeamertemplate***{navigation symbols}\hskip0.1cm}%
+      \vskip2pt}
+  \fi
+                                % Margins
+  \setbeamersize{text margin left=0.5cm,text margin right=0.5cm}
+\fi
+
+\mode
+<all>
